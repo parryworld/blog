@@ -68,7 +68,7 @@
 <link href="/blog/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="parryworld, blog" />
 
 
 
@@ -236,6 +236,146 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2016/11/19/redux-introduction-2/" itemprop="url">
+                  Redux 介绍（二）：异步 Thunk
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-19T21:34:10+08:00" content="2016-11-19">
+              2016-11-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/前端开发/" itemprop="url" rel="index">
+                    <span itemprop="name">前端开发</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/11/19/redux-introduction-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/19/redux-introduction-2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2016/11/19/redux-introduction-2/" class="leancloud_visitors" data-flag-title="Redux 介绍（二）：异步 Thunk">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Redux 的 action 只是一个普通对象，调用<code>dispatch(action)</code>之后就会立即改变 state。</p>
+<p>当我们要调用异步 API 时，会有两个时间点：一个是发送请求的时刻，另一个是接收响应的时刻。在第一个时刻，我们一般会显示一个 loading 控件，在第二个时刻，我们可能会刷新列表。显然，在两个时间点上，我们都需要 dispatch action。</p>
+<p>对于每一个 API 请求，我们一般会有以下三种 action：</p>
+<ul>
+<li>一种表示请求开始的 action</li>
+<li>一种表示请求成功的 action</li>
+<li>一种表示请求失败的 action</li>
+</ul>
+<p>可以定义三个不同的 type 如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; <span class="attr">type</span>: <span class="string">'FETCH_POSTS'</span> &#125;</div><div class="line">&#123; <span class="attr">type</span>: <span class="string">'RECEIVE_POSTS_FAILURE'</span>, error &#125;</div><div class="line">&#123; <span class="attr">type</span>: <span class="string">'RECEIVE_POSTS_SUCCESS'</span>, posts &#125;</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2016/11/19/redux-introduction-2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
