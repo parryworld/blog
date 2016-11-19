@@ -68,7 +68,7 @@
 <link href="/blog/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JavaScript,Redux,React," />
 
 
 
@@ -84,15 +84,19 @@
 
 
 
-<meta name="description" content="Think less, do more.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Parryworld">
-<meta property="og:url" content="http://parryworld.me/blog/index.html">
+<meta name="description" content="Redux 是 JavaScript 上的可预测化的状态容器。
+为什么要使用 Redux ？我们知道，现在 JavaScript 单页应用开发日益复杂，页面里需要管理的 state 也越来越多。如果一个 model 的变化会引起另一个 model 的变化，那么当 model 的联系越来越多，越来越紧密之后，我们就很难有效地管理某个 model 或者 view 中的 state 了。在这种情况下，我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux 介绍（一）：基础教程">
+<meta property="og:url" content="http://parryworld.me/blog/2016/11/19/redux-introduction-1/index.html">
 <meta property="og:site_name" content="Parryworld">
-<meta property="og:description" content="Think less, do more.">
+<meta property="og:description" content="Redux 是 JavaScript 上的可预测化的状态容器。
+为什么要使用 Redux ？我们知道，现在 JavaScript 单页应用开发日益复杂，页面里需要管理的 state 也越来越多。如果一个 model 的变化会引起另一个 model 的变化，那么当 model 的联系越来越多，越来越紧密之后，我们就很难有效地管理某个 model 或者 view 中的 state 了。在这种情况下，我">
+<meta property="og:updated_time" content="2016-11-19T09:38:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Parryworld">
-<meta name="twitter:description" content="Think less, do more.">
+<meta name="twitter:title" content="Redux 介绍（一）：基础教程">
+<meta name="twitter:description" content="Redux 是 JavaScript 上的可预测化的状态容器。
+为什么要使用 Redux ？我们知道，现在 JavaScript 单页应用开发日益复杂，页面里需要管理的 state 也越来越多。如果一个 model 的变化会引起另一个 model 的变化，那么当 model 的联系越来越多，越来越紧密之后，我们就很难有效地管理某个 model 或者 view 中的 state 了。在这种情况下，我">
 
 
 
@@ -113,10 +117,10 @@
 
 
 
-  <link rel="canonical" href="http://parryworld.me/blog/"/>
+  <link rel="canonical" href="http://parryworld.me/blog/2016/11/19/redux-introduction-1/"/>
 
 
-  <title> Parryworld </title>
+  <title> Redux 介绍（一）：基础教程 | Parryworld </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -146,9 +150,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -235,9 +237,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -257,10 +259,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/blog/2016/11/19/redux-introduction-1/" itemprop="url">
-                  Redux 介绍（一）：基础教程
-                </a>
+                Redux 介绍（一）：基础教程
               
             
           </h1>
@@ -335,8 +334,7 @@
       
 
       
-        
-          <p>Redux 是 JavaScript 上的可预测化的状态容器。</p>
+        <p>Redux 是 JavaScript 上的可预测化的状态容器。</p>
 <h2 id="为什么要使用-Redux-？"><a href="#为什么要使用-Redux-？" class="headerlink" title="为什么要使用 Redux ？"></a>为什么要使用 Redux ？</h2><p>我们知道，现在 JavaScript 单页应用开发日益复杂，页面里需要管理的 state 也越来越多。如果一个 model 的变化会引起另一个 model 的变化，那么当 model 的联系越来越多，越来越紧密之后，我们就很难有效地管理某个 model 或者 view 中的 state 了。在这种情况下，我们就需要用类似 Redux 的框架来统一管理应用中的状态。</p>
 <h2 id="Redux-的基本思想"><a href="#Redux-的基本思想" class="headerlink" title="Redux 的基本思想"></a>Redux 的基本思想</h2><ol>
 <li>最开始的问题在于，我们很难管理不同的 view 中的 state。因此，Redux 就把整个应用中的 state 储存在一棵 object tree 中，而且这个 object tree 只存在于唯一的 store 中。这样，我们就可以在最顶层预测所有的 state，并与 view 无关。</li>
@@ -352,178 +350,80 @@
 <p>通过<code>dispatch(action)</code>可以把 action 发送给 store。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch(addTodo(text));</div></pre></td></tr></table></figure>
 <p>在 store 中可以通过 <code>store.dispatch()</code> 调用 <code>dispatch()</code> 方法。但是在其他地方，一般使用 <code>react-redux</code> 提供的 <code>connect()</code> 来调用。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2016/11/19/redux-introduction-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+<a id="more"></a>
+<h2 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h2><p>现在我们通过<code>dispatch(action)</code>把 action 发送了出去。那么，可以编写 reducer 来接收这个 action 并改变 state。</p>
+<p>Reducer 本质上就是一个纯函数，接收之前的 state 和 action，返回新的 state。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(previousState, action) =&gt; newState</div></pre></td></tr></table></figure></p>
+<p>因为 reducer 会传递给 <code>Array.prototype.reduce(reducer, ?initialValue)</code>，所以一定要保持 reducer 的纯净，保证输入参数相同，返回的 state 也相同。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// app/reducers/todo.js</span></div><div class="line"><span class="keyword">import</span> &#123; ADD_TODO &#125; <span class="keyword">from</span> <span class="string">'../constants/actionTypes'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> initialState = &#123;</div><div class="line">  <span class="attr">todos</span>: []</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">todo</span>(<span class="params">state = initialState, action</span>) </span>&#123;</div><div class="line">  <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">    <span class="keyword">case</span> ADD_TODO:</div><div class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123;</div><div class="line">        <span class="attr">todos</span>: [</div><div class="line">          ...state.todos,</div><div class="line">          &#123;</div><div class="line">            <span class="attr">text</span>: action.text,</div><div class="line">            <span class="attr">completed</span>: <span class="literal">false</span></div><div class="line">          &#125;</div><div class="line">        ]</div><div class="line">      &#125;);</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">      <span class="keyword">return</span> state;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>不要修改之前的 state，而是应该返回一个新的 state 副本。</li>
+<li>一定要使用<code>default</code>来返回旧的 state。</li>
+</ol>
+<p>除了像上面一样使用<code>Object.assign()</code>来新建 state 副本，也可以使用 ES7 中的方法<code>{ ...state, ...newState }</code>来新建副本，如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> &#123;</div><div class="line">  ...state,</div><div class="line">  <span class="attr">todos</span>: [</div><div class="line">    ...state.todos,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">text</span>: action.text,</div><div class="line">      <span class="attr">completed</span>: <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>这只是有关 todo 列表的 reducer，在整个应用中会有多个不同的 reducer 管理应用不同的部分，比如有关 setting 的 reducer 管理用户的设置等。每个 reducer 只负责管理 state tree 中的一部分。最后我们可以通过<code>combineReducers()</code>把所有的 reducer 合到一起。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// app/reducers/index.js</span></div><div class="line"><span class="keyword">import</span> &#123; combineReducers &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"><span class="keyword">import</span> todo <span class="keyword">from</span> <span class="string">'./todo'</span>;</div><div class="line"><span class="keyword">import</span> reducer2 <span class="keyword">from</span> <span class="string">'./reducer2'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> rootReducer = combineReducers(&#123;</div><div class="line">  todo,</div><div class="line">  reducer2</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> rootReducer;</div></pre></td></tr></table></figure>
+<h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h2><p>既然有了 reducer，我们就可以很容易地创建 store 了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// app/store/index.js</span></div><div class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'../reducers'</span>;</div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> store = createStore(rootReducer);</div></pre></td></tr></table></figure>
+<p>就是这么简单，现在我们可以发送 action 来添加 todo，并保存在 todos 的状态里。同样地，我们可以类似地编写更多的 action，创建更多的 state 来满足应用的需求。</p>
+
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2016/11/16/Objective-C-and-Java/" itemprop="url">
-                  IOS中Objective-C和Android中Java的语法对应关系
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-16T15:53:06+08:00" content="2016-11-16">
-              2016-11-16
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/blog/categories/学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
+            <a href="/blog/tags/JavaScript/" rel="tag">#JavaScript</a>
           
-
+            <a href="/blog/tags/Redux/" rel="tag">#Redux</a>
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2016/11/16/Objective-C-and-Java/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/16/Objective-C-and-Java/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2016/11/16/Objective-C-and-Java/" class="leancloud_visitors" data-flag-title="IOS中Objective-C和Android中Java的语法对应关系">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
+            <a href="/blog/tags/React/" rel="tag">#React</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <blockquote>
-<p>随着React Native等跨平台的移动框架的出现，很多时候我们需要同时会编写Android和IOS上的代码。但是Objective-C和Java确实存在着很大差异，不过在一定程度上也有相类似的写法。下面主要列举一些Android上Java和IOS上Objective-C之间语法上的对应关系。</p>
-</blockquote>
-<h2 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h2><p>Objective-C版</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 类的声明</span></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XYZPerson</span> : <span class="title">NSObject</span></span></div><div class="line"></div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSString</span> *firstName;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSString</span> *lastName;</div><div class="line"><span class="keyword">@property</span> <span class="keyword">int</span> yearOfBirth;</div><div class="line"></div><div class="line">- (<span class="keyword">int</span>)magicNumber;</div><div class="line">- (<span class="keyword">void</span>)sayHello;</div><div class="line">- (<span class="keyword">void</span>)saySomething:(<span class="built_in">NSString</span> *)greeting;</div><div class="line">- (<span class="keyword">int</span>)sumWithFirstValue:(<span class="keyword">int</span>)value1 secondValue:(<span class="keyword">int</span>)value2;</div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)anotherSayHello;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 类的实现</span></div><div class="line"><span class="meta">#import <span class="meta-string">"XYZPerson.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XYZPerson</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">int</span>)magicNumber &#123;  </div><div class="line">    <span class="keyword">return</span> <span class="number">42</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)sayHello &#123;  </div><div class="line">    [<span class="keyword">self</span> saySomething:<span class="string">@"Hello, world!"</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)saySomething:(<span class="built_in">NSString</span> *)greeting &#123;  </div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, greeting);  </div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">int</span>)sumWithFirstValue:(<span class="keyword">int</span>)val1 secondValue:(<span class="keyword">int</span>)val2 &#123;</div><div class="line">    <span class="keyword">return</span> val1 + val2;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)anotherSayHello &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Hello, world!"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<p>Java版</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XYZPerson</span> <span class="keyword">extends</span> <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String firstName;</div><div class="line">    <span class="keyword">private</span> String lastName;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> yearOfBirth;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">magicNumber</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">42</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.saySomething(<span class="string">"Hello, world!"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saySomething</span><span class="params">(String greeting)</span> </span>&#123;</div><div class="line">        Log.d(<span class="string">"TAG"</span>, greeting);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> val1, <span class="keyword">int</span> val2)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> val1 + val2;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">anotherSayHello</span><span class="params">()</span> </span>&#123;</div><div class="line">        Log.d(<span class="string">"TAG"</span>, <span class="string">"Hello, world!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2016/11/16/Objective-C-and-Java/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/11/16/Objective-C-and-Java/" rel="next" title="IOS中Objective-C和Android中Java的语法对应关系">
+                <i class="fa fa-chevron-left"></i> IOS中Objective-C和Android中Java的语法对应关系
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -531,6 +431,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/19/redux-introduction-1/"
+           data-title="Redux 介绍（一）：基础教程" data-url="http://parryworld.me/blog/blog/2016/11/19/redux-introduction-1/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -623,6 +531,10 @@
   
 
   
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
