@@ -258,6 +258,141 @@
             
               
                 
+                <a class="post-title-link" href="/blog/2016/11/20/redux-introduction-3/" itemprop="url">
+                  Redux 介绍（三）：中间件 Middleware
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-20T14:50:54+08:00" content="2016-11-20">
+              2016-11-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/前端开发/" itemprop="url" rel="index">
+                    <span itemprop="name">前端开发</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/11/20/redux-introduction-3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/20/redux-introduction-3/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2016/11/20/redux-introduction-3/" class="leancloud_visitors" data-flag-title="Redux 介绍（三）：中间件 Middleware">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Redux 中的 middleware 位于 action 发出后，到达 reducer 之前的时间点，在 middleware 中，我们可以接收到这个 action，并执行一些操作，比如打印日志，调用其他接口等等。</p>
+<p>下面我们以记录日志为例讲解一下 middleware 的基本原理。</p>
+<h2 id="记录日志的-Middleware"><a href="#记录日志的-Middleware" class="headerlink" title="记录日志的 Middleware"></a>记录日志的 Middleware</h2><p>首先，我们先给出最简单的记录日志的 middleware 形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> logger = <span class="function"><span class="params">store</span> =&gt;</span> next =&gt; <span class="function"><span class="params">action</span> =&gt;</span> &#123;</div><div class="line"></div><div class="line">  <span class="comment">// 记录发送出去的 action</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'dispatching'</span>, action);</div><div class="line">  </div><div class="line">  <span class="comment">// 继续往下传给下一个 middleware 或者最终传给 reducer</span></div><div class="line">  <span class="keyword">let</span> result = next(action);</div><div class="line">  </div><div class="line">  <span class="comment">// 最终完成一次 state 修改后，记录新的 state tree</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</div><div class="line">  </div><div class="line">  <span class="comment">// 返回值</span></div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个 middleware 实现了打印 action 和打印新的 state tree 的功能。一开始看到这个代码块，一般很难理解其中的工作原理，下面我们根据这个 middleware 做进一步的分析。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2016/11/20/redux-introduction-3/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/blog/2016/11/19/redux-introduction-2/" itemprop="url">
                   Redux 介绍（二）：异步 Thunk
                 </a>

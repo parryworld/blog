@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Parryworld">
 <meta property="og:description" content="Redux 是 JavaScript 上的可预测化的状态容器。
 为什么要使用 Redux ？我们知道，现在 JavaScript 单页应用开发日益复杂，页面里需要管理的 state 也越来越多。如果一个 model 的变化会引起另一个 model 的变化，那么当 model 的联系越来越多，越来越紧密之后，我们就很难有效地管理某个 model 或者 view 中的 state 了。在这种情况下，我">
-<meta property="og:updated_time" content="2016-11-19T09:38:05.000Z">
+<meta property="og:updated_time" content="2016-11-20T07:11:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redux 介绍（一）：基础教程">
 <meta name="twitter:description" content="Redux 是 JavaScript 上的可预测化的状态容器。
@@ -366,6 +366,8 @@
 <h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h2><p>既然有了 reducer，我们就可以很容易地创建 store 了。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// app/store/index.js</span></div><div class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'../reducers'</span>;</div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> store = createStore(rootReducer);</div></pre></td></tr></table></figure>
 <p>就是这么简单，现在我们可以发送 action 来添加 todo，并保存在 todos 的状态里。同样地，我们可以类似地编写更多的 action，创建更多的 state 来满足应用的需求。</p>
+<h3 id="系列文章"><a href="#系列文章" class="headerlink" title="系列文章:"></a>系列文章:</h3><p><a href="http://parryworld.me/blog/2016/11/19/redux-introduction-2/">Redux 介绍（二）：异步 Thunk</a></p>
+<p><a href="http://parryworld.me/blog/2016/11/20/redux-introduction-3/">Redux 介绍（三）：中间件 Middleware</a></p>
 
       
     </div>

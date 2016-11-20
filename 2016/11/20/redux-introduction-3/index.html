@@ -1,0 +1,696 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,Redux,React," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Redux 中的 middleware 位于 action 发出后，到达 reducer 之前的时间点，在 middleware 中，我们可以接收到这个 action，并执行一些操作，比如打印日志，调用其他接口等等。
+下面我们以记录日志为例讲解一下 middleware 的基本原理。
+记录日志的 Middleware首先，我们先给出最简单的记录日志的 middleware 形式。
+12345678">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux 介绍（三）：中间件 Middleware">
+<meta property="og:url" content="http://parryworld.me/blog/2016/11/20/redux-introduction-3/index.html">
+<meta property="og:site_name" content="Parryworld">
+<meta property="og:description" content="Redux 中的 middleware 位于 action 发出后，到达 reducer 之前的时间点，在 middleware 中，我们可以接收到这个 action，并执行一些操作，比如打印日志，调用其他接口等等。
+下面我们以记录日志为例讲解一下 middleware 的基本原理。
+记录日志的 Middleware首先，我们先给出最简单的记录日志的 middleware 形式。
+12345678">
+<meta property="og:updated_time" content="2016-11-20T07:12:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redux 介绍（三）：中间件 Middleware">
+<meta name="twitter:description" content="Redux 中的 middleware 位于 action 发出后，到达 reducer 之前的时间点，在 middleware 中，我们可以接收到这个 action，并执行一些操作，比如打印日志，调用其他接口等等。
+下面我们以记录日志为例讲解一下 middleware 的基本原理。
+记录日志的 Middleware首先，我们先给出最简单的记录日志的 middleware 形式。
+12345678">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://parryworld.me/blog/2016/11/20/redux-introduction-3/"/>
+
+
+  <title> Redux 介绍（三）：中间件 Middleware | Parryworld </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-87135662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Parryworld</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redux 介绍（三）：中间件 Middleware
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-20T14:50:54+08:00" content="2016-11-20">
+              2016-11-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/前端开发/" itemprop="url" rel="index">
+                    <span itemprop="name">前端开发</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/11/20/redux-introduction-3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/20/redux-introduction-3/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2016/11/20/redux-introduction-3/" class="leancloud_visitors" data-flag-title="Redux 介绍（三）：中间件 Middleware">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Redux 中的 middleware 位于 action 发出后，到达 reducer 之前的时间点，在 middleware 中，我们可以接收到这个 action，并执行一些操作，比如打印日志，调用其他接口等等。</p>
+<p>下面我们以记录日志为例讲解一下 middleware 的基本原理。</p>
+<h2 id="记录日志的-Middleware"><a href="#记录日志的-Middleware" class="headerlink" title="记录日志的 Middleware"></a>记录日志的 Middleware</h2><p>首先，我们先给出最简单的记录日志的 middleware 形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> logger = <span class="function"><span class="params">store</span> =&gt;</span> next =&gt; <span class="function"><span class="params">action</span> =&gt;</span> &#123;</div><div class="line"></div><div class="line">  <span class="comment">// 记录发送出去的 action</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'dispatching'</span>, action);</div><div class="line">  </div><div class="line">  <span class="comment">// 继续往下传给下一个 middleware 或者最终传给 reducer</span></div><div class="line">  <span class="keyword">let</span> result = next(action);</div><div class="line">  </div><div class="line">  <span class="comment">// 最终完成一次 state 修改后，记录新的 state tree</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</div><div class="line">  </div><div class="line">  <span class="comment">// 返回值</span></div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个 middleware 实现了打印 action 和打印新的 state tree 的功能。一开始看到这个代码块，一般很难理解其中的工作原理，下面我们根据这个 middleware 做进一步的分析。</p>
+<a id="more"></a>
+<h2 id="Middleware-工作原理"><a href="#Middleware-工作原理" class="headerlink" title="Middleware 工作原理"></a>Middleware 工作原理</h2><p>把上面的 middleware 的箭头函数还原后应该是下面这个样子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">logger</span>(<span class="params">store</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">wrapDispatchToAddLogging</span>(<span class="params">next</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">dispatchAndLog</span>(<span class="params">action</span>) </span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'dispatching'</span>, action);</div><div class="line">      <span class="keyword">let</span> result = next(action);</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</div><div class="line">      <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于上述代码，我们可能会好奇这三个传入的参数 store, next, action 到底有什么作用。</p>
+<ul>
+<li>对于 store，其实很好理解，我们的目的是 dispatch action，所以传入 store 是为了调用 <code>store.dispatch()</code></li>
+<li>对于 action，一方面是为了 dispatch 这个 action，另一方面是在 middleware 中得到 这个 action 来作特定的一些操作。</li>
+</ul>
+<p>那么 next 这个参数到底是什么含义呢？事实上，在应用中我们还是和平常一样通过调用<code>dispatch(action)</code>来改变 state。在这个过程中， middleware 已经被封装起来了，所以 next 的作用就是把一个又一个 middleware 封装在<code>store.dispatch()</code>里。我们来看下面这段代码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">applyMiddleware</span>(<span class="params">store, middlewares</span>) </span>&#123;</div><div class="line">  middlewares = middlewares.slice();</div><div class="line">  middlewares.reverse();</div><div class="line"></div><div class="line">  <span class="keyword">let</span> dispatch = store.dispatch;</div><div class="line">  middlewares.forEach(<span class="function"><span class="params">middleware</span> =&gt;</span></div><div class="line">    dispatch = middleware(store)(dispatch)</div><div class="line">  )</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, store, &#123; dispatch &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码段不是 Redux 中真实的<code>applyMiddleware()</code>，这只是一种单纯的实现方式，主要是为了方便我们理解其中的原理。</p>
+<p>从这段代码中，我们就明白了 next 的作用，每一次调用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch = middleware(store)(dispatch)</div></pre></td></tr></table></figure>
+<p>就把上一次的 <code>dispacth</code>传给了 next 参数，然后返回一个新的 <code>dispatch</code>，这个过程就把一个 middleware 的功能添加进了<code>dispatch</code>中。最后返回一个新的 store 副本，<code>store.dispatch()</code>中就包括了所有的 middleware 了。</p>
+<h2 id="使用-Middleware"><a href="#使用-Middleware" class="headerlink" title="使用 Middleware"></a>使用 Middleware</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// app/store/logger.js</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> logger = <span class="function"><span class="params">store</span> =&gt;</span> next =&gt; <span class="function"><span class="params">action</span> =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'dispatching'</span>, action);</div><div class="line">  <span class="keyword">let</span> result = next(action);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'next state'</span>, store.getState());</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将 middleware 引入到 store 中，我们也可以引入一些开源的 middleware。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// app/store/index.js</span></div><div class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'../reducers'</span>;</div><div class="line"><span class="keyword">import</span> thunk <span class="keyword">from</span> <span class="string">'redux-thunk'</span>;</div><div class="line"><span class="keyword">import</span> &#123; logger &#125; <span class="keyword">from</span> <span class="string">'./logger'</span>;</div><div class="line"></div><div class="line"><span class="keyword">let</span> createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);</div><div class="line"></div><div class="line"><span class="keyword">let</span> store = createStoreWithMiddleware(rootReducer);</div></pre></td></tr></table></figure>
+<p>最后，我们正常调用<code>dispatch()</code>来 dispatch action 就能实现包含的 middleware 了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch(addTodo(<span class="string">'Middleware'</span>));</div></pre></td></tr></table></figure>
+<h3 id="系列文章"><a href="#系列文章" class="headerlink" title="系列文章:"></a>系列文章:</h3><p><a href="http://parryworld.me/blog/2016/11/19/redux-introduction-1/">Redux 介绍（一）：基础教程</a></p>
+<p><a href="http://parryworld.me/blog/2016/11/19/redux-introduction-2/">Redux 介绍（二）：异步 Thunk</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/blog/tags/Redux/" rel="tag">#Redux</a>
+          
+            <a href="/blog/tags/React/" rel="tag">#React</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/11/19/redux-introduction-2/" rel="next" title="Redux 介绍（二）：异步 Thunk">
+                <i class="fa fa-chevron-left"></i> Redux 介绍（二）：异步 Thunk
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/20/redux-introduction-3/"
+           data-title="Redux 介绍（三）：中间件 Middleware" data-url="http://parryworld.me/blog/blog/2016/11/20/redux-introduction-3/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">parryworld</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"parryworld"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/blog/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/blog/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("dftkPwUqV3LNSwa2sNIlD8WN-gzGzoHsz", "niIkVTkqzyjOtLjvjPwmss1D");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
