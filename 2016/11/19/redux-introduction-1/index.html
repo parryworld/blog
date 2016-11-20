@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Parryworld">
 <meta property="og:description" content="Redux 是 JavaScript 上的可预测化的状态容器。
 为什么要使用 Redux ？我们知道，现在 JavaScript 单页应用开发日益复杂，页面里需要管理的 state 也越来越多。如果一个 model 的变化会引起另一个 model 的变化，那么当 model 的联系越来越多，越来越紧密之后，我们就很难有效地管理某个 model 或者 view 中的 state 了。在这种情况下，我">
-<meta property="og:updated_time" content="2016-11-20T07:11:02.000Z">
+<meta property="og:updated_time" content="2016-11-20T07:27:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redux 介绍（一）：基础教程">
 <meta name="twitter:description" content="Redux 是 JavaScript 上的可预测化的状态容器。
@@ -345,12 +345,12 @@
 <p>下面就以todoApp为例，实现 action, reducer, store 这三个模块。</p>
 <h2 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h2><p>Action 用来告诉 store 发生了什么动作。下面是添加 todo 的 action ：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// app/actions/todo.js</span></div><div class="line"><span class="keyword">import</span> &#123; ADD_TODO &#125; <span class="keyword">from</span> <span class="string">'../constants/actionTypes'</span>;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">addTodo</span>(<span class="params">text</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">type</span>: ADD_TODO,</div><div class="line">    text</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>Action 本质上是一个 JavaScript 对象，我们可以用函数封装好返回这个对象，方便移植。Action 必须包含一个 type 字段用来告诉 store 这是哪个动作。type 一般是字符串常量，当应用规模变大时，action 的数量也越来越多，可以把 type 储存在一个特定的文件里来维护，如下所示：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// app/constants/actionTypes.js</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> ADD_TODO = <span class="string">'ADD_TODO'</span>;</div></pre></td></tr></table></figure>
 <p>通过<code>dispatch(action)</code>可以把 action 发送给 store。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch(addTodo(text));</div></pre></td></tr></table></figure>
 <p>在 store 中可以通过 <code>store.dispatch()</code> 调用 <code>dispatch()</code> 方法。但是在其他地方，一般使用 <code>react-redux</code> 提供的 <code>connect()</code> 来调用。</p>
-<a id="more"></a>
 <h2 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h2><p>现在我们通过<code>dispatch(action)</code>把 action 发送了出去。那么，可以编写 reducer 来接收这个 action 并改变 state。</p>
 <p>Reducer 本质上就是一个纯函数，接收之前的 state 和 action，返回新的 state。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(previousState, action) =&gt; newState</div></pre></td></tr></table></figure></p>
 <p>因为 reducer 会传递给 <code>Array.prototype.reduce(reducer, ?initialValue)</code>，所以一定要保持 reducer 的纯净，保证输入参数相同，返回的 state 也相同。</p>
