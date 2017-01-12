@@ -94,7 +94,7 @@
 <meta property="og:description" content="问题由来在 React Native 中，ListView 中的数据是这样定义的：
 1234let ds = new ListView.DataSource(&amp;#123;rowHasChanged: (r1, r2) =&amp;gt; r1 !== r2&amp;#125;);this.state = &amp;#123;  dataSource: ds&amp;#125;;
 当要更新 ListView 时，通过cloneWi">
-<meta property="og:updated_time" content="2017-01-12T06:40:47.000Z">
+<meta property="og:updated_time" content="2017-01-12T06:48:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React Native ListView 强制刷新">
 <meta name="twitter:description" content="问题由来在 React Native 中，ListView 中的数据是这样定义的：
@@ -344,6 +344,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">posts = [</div><div class="line">  &#123; <span class="attr">title</span>: <span class="string">'JavaScript'</span>, <span class="attr">content</span>: <span class="string">'xxx'</span> &#125;,</div><div class="line">  &#123; <span class="attr">title</span>: <span class="string">'Android'</span>, <span class="attr">content</span>: <span class="string">'xxx'</span> &#125;,</div><div class="line">  &#123; <span class="attr">title</span>: <span class="string">'iOS'</span>, <span class="attr">content</span>: <span class="string">'xxx'</span> &#125;</div><div class="line">];</div></pre></td></tr></table></figure>
 <p>当我们向 posts 数组添加一行，或者删除一行，或者把另一行替换成新的对象，通过<code>cloneWithRows</code>调用后，ListView 就会对变化的行重新渲染，通过调用<code>renderRow</code>方法。</p>
 <h5 id="React-Native-是如何判断-ListView-的变化的呢？"><a href="#React-Native-是如何判断-ListView-的变化的呢？" class="headerlink" title="React Native 是如何判断 ListView 的变化的呢？"></a>React Native 是如何判断 ListView 的变化的呢？</h5><p>就是通过之前定义的<code>{rowHasChanged: (r1, r2) =&gt; r1 !== r2}</code>方式，旧的 posts 和新的 posts 数组下的对象引用不同时，就会重新渲染相应的行。</p>
+<a id="more"></a>
 <p>这种方式可以大量减少不必要的行渲染。</p>
 <h4 id="那么当行对象引用没有变化时，ListView-就不会调用renderRow，比如下下面两种情景："><a href="#那么当行对象引用没有变化时，ListView-就不会调用renderRow，比如下下面两种情景：" class="headerlink" title="那么当行对象引用没有变化时，ListView 就不会调用renderRow，比如下下面两种情景："></a>那么当行对象引用没有变化时，ListView 就不会调用<code>renderRow</code>，比如下下面两种情景：</h4><ul>
 <li>修改行对象里的属性，但是没有返回新的对象</li>
@@ -401,6 +402,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/01/12/Deep-copy-and-shallow-copy-in-JavaScript/" rel="prev" title="JavaScript 中的深复制和浅复制">
+                JavaScript 中的深复制和浅复制 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
