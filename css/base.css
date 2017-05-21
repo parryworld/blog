@@ -1,0 +1,61 @@
+.transition-all {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.serif {
+  font-family: 'Lora', 'Times New Roman', serif;
+}
+.sans-serif,
+body,
+html {
+  font-family: Bitter, 'Lantinghei SC', 'Microsoft YaHei', sans-serif;
+}
+body,
+html {
+  width: 100%;
+  font-size: 16px;
+  color: #404040;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+}
+a {
+  text-decoration: none;
+  color: #404040;
+}
+a:hover {
+  color: #cf4a5c;
+}
+.container {
+  max-width: 840px;
+  padding: 0 20px;
+  margin: 80px auto;
+}
+.post-list {
+  max-width: 600px;
+  margin: 0 auto;
+  list-style: none;
+}
+.post-list h2 {
+  font-size: 18px;
+  line-height: 2.5em;
+  font-weight: 500;
+}
+@media screen and (max-width: 640px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+  .container {
+    margin: 20px auto;
+  }
+  .post-list h2 {
+    font-size: 15px;
+  }
+}

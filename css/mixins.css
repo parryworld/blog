@@ -1,0 +1,11 @@
+.transition-all {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.serif {
+  font-family: 'Lora', 'Times New Roman', serif;
+}
+.sans-serif {
+  font-family: Bitter, 'Lantinghei SC', 'Microsoft YaHei', sans-serif;
+}
